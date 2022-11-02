@@ -1,0 +1,5 @@
+PUT http://localhost:5173/product/123534 HTTP/1.1
+Content-Type:application/json
+{
+    "price": 105
+}
