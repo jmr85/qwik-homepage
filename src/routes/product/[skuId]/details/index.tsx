@@ -1,4 +1,6 @@
+import { Resource, component$ } from '@builder.io/qwik';
 import type { RequestHandler } from '@builder.io/qwik-city';
+import { useEndpoint } from "@builder.io/qwik-city";
 
 interface ProductData {
   skuId: string;
@@ -14,3 +16,21 @@ export const onGet: RequestHandler<ProductData> = async ({ params }) => {
     description: `Description for ${params.skuId}`,
   };
 };
+
+export default component$(() => {
+    const productData = useEndpoint<ProductData>();
+    return (
+      <Resource
+        value={productData}
+        onPending={() => <div>Loading...</div>}
+        onRejected={() => <div>Error</div>}
+        onResolved={(product) => (
+          <>
+            <h1>Product: {product.skuId}</h1>
+            <p>Price: {product.price}</p>
+            <p>{product.description}</p>
+          </>
+        )}
+      />
+    );
+  });
